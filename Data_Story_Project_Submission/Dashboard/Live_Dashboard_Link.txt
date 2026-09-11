@@ -1,0 +1,23 @@
+Live Dashboard Link
+--------------------
+
+Tool: Streamlit (Python-based interactive dashboard framework)
+
+To launch the dashboard locally, run the following command from the Dashboard/ directory:
+
+    cd Data_Story_Project_Submission/Dashboard/
+    streamlit run dashboard_app.py
+
+This will open the dashboard in your default web browser at:
+    http://localhost:8501
+
+Requirements:
+    pip install streamlit pandas numpy plotly
+
+Note: The dashboard reads data from ../../archive/AB_NYC_2019.csv relative to
+the Dashboard/ directory. Make sure the archive folder is in the expected location.
+
+Deployment Options:
+    - Streamlit Community Cloud (free): https://share.streamlit.io
+    - Heroku, AWS, or any cloud provider with Python support
+    - For sharing, export individual charts as HTML using Plotly's write_html()

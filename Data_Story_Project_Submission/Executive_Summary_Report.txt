@@ -1,0 +1,233 @@
+================================================================================
+                       EXECUTIVE SUMMARY REPORT
+         New York City Airbnb Market: A Data-Driven Analysis
+================================================================================
+
+Prepared for: Stakeholder Review
+Dataset: New York City Airbnb Open Data (2019)
+Source: https://www.kaggle.com/datasets/dgomonov/new-york-city-airbnb-open-data
+Date: September 2026
+
+--------------------------------------------------------------------------------
+1. INTRODUCTION
+--------------------------------------------------------------------------------
+
+New York City is one of the most visited cities in the world, attracting over
+65 million tourists annually. Airbnb has become a significant part of the city's
+accommodation landscape, with nearly 49,000 active listings as of 2019. This
+report analyses the NYC Airbnb Open Data to uncover patterns in pricing,
+geographic distribution, host behaviour, and guest preferences.
+
+The goal is to provide actionable insights for three key audiences:
+  - Prospective and existing Airbnb hosts seeking to optimise their listings
+  - Policy makers evaluating the platform's impact on housing and tourism
+  - Airbnb as a platform looking to grow and regulate its NYC market
+
+--------------------------------------------------------------------------------
+2. DATA OVERVIEW AND METHODOLOGY
+--------------------------------------------------------------------------------
+
+Source Data:
+  - 48,895 Airbnb listings across all five NYC boroughs
+  - 16 attributes per listing: location, price, room type, host details,
+    reviews, availability, and minimum night requirements
+
+Cleaning Steps Applied:
+  - Filled missing listing names (16 records) and host names (21 records)
+    with placeholder values
+  - Imputed reviews_per_month with 0 for listings with no reviews (10,052)
+  - Removed 11 listings with price = $0 (likely data entry errors)
+  - Excluded 53 listings with minimum_nights > 365 (long-term leases)
+  - Converted date fields to proper datetime format
+
+Feature Engineering:
+  - Price categories: Budget, Economy, Mid-Range, Premium, Luxury
+  - Host types: Individual (1 listing), Small Portfolio (2-5), Professional (6+)
+  - Estimated annual revenue using the review-to-booking conversion method
+
+Final working dataset: 48,831 listings
+
+--------------------------------------------------------------------------------
+3. KEY FINDINGS
+--------------------------------------------------------------------------------
+
+3.1 Geographic Distribution
+............................
+
+Manhattan and Brooklyn together account for approximately 85% of all listings.
+The five most listing-dense neighbourhoods are:
+
+    Rank  Neighbourhood           Borough      Listings
+    1     Williamsburg            Brooklyn      3,920
+    2     Bedford-Stuyvesant      Brooklyn      3,714
+    3     Harlem                  Manhattan     2,658
+    4     Bushwick                Brooklyn      2,465
+    5     Upper West Side         Manhattan     1,971
+
+The outer boroughs -- Bronx (1,091 listings, ~2.2%) and Staten Island
+(373 listings, ~0.8%) -- are dramatically underrepresented. This reflects
+both genuine tourist demand patterns and potential gaps in market coverage.
+
+3.2 Pricing Dynamics
+.....................
+
+The median nightly price across NYC is $106, while the mean is $152,
+indicating a strongly right-skewed distribution driven by high-end listings.
+
+Price by Borough (Median):
+    Manhattan:      $150
+    Brooklyn:       $90
+    Queens:         $75
+    Staten Island:  $75
+    Bronx:          $65
+
+Price by Room Type (Median):
+    Entire home/apt:  $160
+    Private room:     $70
+    Shared room:      $45
+
+Approximately 50% of all listings fall in the Budget ($0-50) and Economy
+($51-100) categories, signalling intense competition in the affordable
+segment. Only about 5% of listings exceed $500/night.
+
+3.3 Room Type Composition
+..........................
+
+    Room Type          Percentage
+    Entire home/apt    52.0%
+    Private room       45.7%
+    Shared room         2.3%
+
+Manhattan has a notably higher proportion of entire-home listings compared
+to other boroughs. Brooklyn leans more toward private rooms, reflecting its
+residential character and the prevalence of brownstone conversions.
+
+3.4 Host Landscape and Market Concentration
+...........................................
+
+Individual hosts (one listing each) make up the majority of the host base.
+However, professional hosts with 6 or more listings control a disproportionate
+share of total listings.
+
+While exact percentages depend on the filter criteria, the general pattern is
+consistent: a small group of commercial operators holds significant market
+power. The top 15 hosts alone manage hundreds of listings each, often spanning
+multiple boroughs. This concentration raises questions about:
+  - Impact on local housing supply and affordability
+  - Compliance with short-term rental regulations
+  - Fair competition for individual hosts
+
+3.5 Review Patterns and Guest Engagement
+.........................................
+
+Review activity shows strong growth through 2019, with June and July being
+peak months -- aligning with NYC's summer tourism season. Key observations:
+
+  - Higher-priced listings tend to have fewer reviews, suggesting either
+    lower booking frequency or a different guest profile
+  - Listings with more reviews maintain higher visibility and booking rates
+  - The average listing has approximately 23 reviews
+
+3.6 Minimum Night Requirements
+..............................
+
+The vast majority of listings have a minimum stay of 1-3 nights. However,
+roughly 4-5% of listings require 30 or more nights, effectively operating
+as medium-to-long-term rentals. These listings may be:
+  - Hosts circumventing NYC's short-term rental restrictions
+  - Legitimate long-term rental offerings
+  - Properties in transition between rental strategies
+
+3.7 Revenue Estimates
+.....................
+
+Using a conservative estimation model (based on review-to-booking ratios),
+Manhattan listings generate the highest median estimated annual revenue,
+followed by Brooklyn. The top revenue-generating neighbourhoods closely
+mirror the areas with the highest listing density and tourist traffic.
+
+--------------------------------------------------------------------------------
+4. STRATEGIC RECOMMENDATIONS
+--------------------------------------------------------------------------------
+
+FOR NEW HOSTS:
+  1. Target the budget-to-mid-range price segment ($50-200/night), where
+     demand is strongest and competition, while fierce, offers volume.
+  2. Brooklyn neighbourhoods such as Williamsburg and Bedford-Stuyvesant
+     provide good demand with somewhat less saturation than core Manhattan.
+  3. Use descriptive, appealing listing names. Words like "cozy", "private",
+     "spacious", "modern", and "bright" appear frequently in successful
+     listings.
+  4. Set minimum nights to 1-2 to maximise booking potential.
+
+FOR EXISTING HOSTS:
+  1. Prioritise generating reviews -- they directly impact search visibility
+     and guest trust. Consider follow-up messages encouraging guests to
+     leave feedback.
+  2. Increase year-round availability. Listings available for more days
+     tend to perform better in search rankings.
+  3. Regularly benchmark pricing against comparable listings in your
+     neighbourhood and room-type segment.
+  4. Consider offering discounts for longer stays to improve occupancy
+     during off-peak months.
+
+FOR POLICY MAKERS:
+  1. Monitor the concentration of listings among professional hosts,
+     especially entire-home listings in residential areas.
+  2. Investigate listings with 30+ night minimums that may be skirting
+     short-term rental regulations.
+  3. The high density of listings in certain neighbourhoods (Williamsburg,
+     Harlem, Bushwick) warrants assessment of the impact on local housing
+     markets and community character.
+  4. Consider requiring hosts with multiple listings to register as
+     commercial operators.
+
+FOR THE AIRBNB PLATFORM:
+  1. The outer boroughs (Bronx, Staten Island) represent underserved
+     markets. Promotional campaigns highlighting attractions in these
+     areas could drive diversification.
+  2. Develop tools to help individual hosts compete with professional
+     operators (pricing suggestions, marketing support, etc.).
+  3. The strong review activity growth signals healthy platform engagement
+     in NYC, but the high concentration of professional operators could
+     undermine trust if not managed transparently.
+
+--------------------------------------------------------------------------------
+5. LIMITATIONS AND FUTURE WORK
+--------------------------------------------------------------------------------
+
+Limitations:
+  - The dataset is a snapshot from 2019 and does not capture post-pandemic
+    changes in the NYC short-term rental market.
+  - Revenue estimates are approximations based on review frequency, not
+    actual booking data.
+  - The dataset lacks guest demographics, seasonality details, and
+    cancellation rates.
+
+Future Work:
+  - Incorporate more recent data to assess pandemic recovery patterns.
+  - Build predictive models for pricing optimisation.
+  - Analyse the impact of NYC's Local Law 18 (2023) on listing counts
+    and host behaviour.
+  - Integrate external data (neighbourhood demographics, transit access,
+    points of interest) for richer geographic analysis.
+
+--------------------------------------------------------------------------------
+6. CONCLUSION
+--------------------------------------------------------------------------------
+
+The NYC Airbnb market is large, dynamic, and geographically concentrated.
+Manhattan and Brooklyn dominate both supply and revenue, while the outer
+boroughs remain largely untapped. The pricing landscape is competitive,
+with most listings falling in the budget-to-mid-range segment. Perhaps most
+notably, a small number of professional hosts control a significant portion
+of the market, raising important questions about the platform's role in
+urban housing and the sharing economy more broadly.
+
+This analysis provides a data-grounded foundation for hosts, regulators,
+and platform operators to make informed decisions about their strategies
+in one of the world's most important short-term rental markets.
+
+================================================================================
+                              END OF REPORT
+================================================================================

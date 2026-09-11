@@ -1,0 +1,29 @@
+Dataset: New York City Airbnb Open Data (2019)
+Source: Kaggle
+URL: https://www.kaggle.com/datasets/dgomonov/new-york-city-airbnb-open-data
+
+Description:
+This dataset contains information about Airbnb listings in New York City for the year 2019.
+It includes approximately 49,000 listings with details such as host information, location,
+room type, pricing, minimum night requirements, review counts, availability, and more.
+
+Columns:
+- id: Unique listing identifier
+- name: Listing name/title
+- host_id: Unique host identifier
+- host_name: Name of the host
+- neighbourhood_group: Borough (Manhattan, Brooklyn, Queens, Bronx, Staten Island)
+- neighbourhood: Specific neighbourhood within the borough
+- latitude: Geographic latitude
+- longitude: Geographic longitude
+- room_type: Type of listing (Entire home/apt, Private room, Shared room)
+- price: Nightly price in USD
+- minimum_nights: Minimum number of nights required
+- number_of_reviews: Total number of reviews
+- last_review: Date of the most recent review
+- reviews_per_month: Average number of reviews per month
+- calculated_host_listings_count: Number of listings the host has
+- availability_365: Number of days available per year
+
+Downloaded On: September 2026
+File: AB_NYC_2019.csv

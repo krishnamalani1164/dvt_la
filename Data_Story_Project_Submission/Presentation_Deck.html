@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NYC Airbnb Data Story -- Stakeholder Presentation</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', -apple-system, sans-serif;
+        color: #2c3e50;
+        background: #f0f2f5;
+        line-height: 1.6;
+    }
+
+    .slide {
+        width: 960px;
+        min-height: 540px;
+        margin: 30px auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        padding: 50px 60px;
+        page-break-after: always;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .slide::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #3498db, #9b59b6, #e74c3c);
+    }
+
+    .slide-number {
+        position: absolute;
+        bottom: 20px;
+        right: 30px;
+        font-size: 12px;
+        color: #bdc3c7;
+        font-weight: 500;
+    }
+
+    /* Title Slide */
+    .title-slide {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        min-height: 540px;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        color: white;
+    }
+
+    .title-slide::before {
+        background: linear-gradient(90deg, #3498db, #2ecc71, #f1c40f, #e74c3c);
+        height: 6px;
+    }
+
+    .title-slide h1 {
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        letter-spacing: -0.5px;
+    }
+
+    .title-slide .subtitle {
+        font-size: 18px;
+        color: rgba(255,255,255,0.7);
+        margin-bottom: 30px;
+        font-weight: 300;
+    }
+
+    .title-slide .meta {
+        font-size: 14px;
+        color: rgba(255,255,255,0.5);
+    }
+
+    /* Section headers */
+    h2 {
+        font-size: 26px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 25px;
+        padding-bottom: 10px;
+        border-bottom: 3px solid #3498db;
+    }
+
+    h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #34495e;
+        margin-bottom: 12px;
+    }
+
+    p {
+        font-size: 15px;
+        margin-bottom: 12px;
+        color: #555;
+    }
+
+    ul {
+        padding-left: 24px;
+        margin-bottom: 15px;
+    }
+
+    li {
+        font-size: 15px;
+        margin-bottom: 8px;
+        color: #555;
+    }
+
+    /* Data tables */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 15px 0;
+        font-size: 14px;
+    }
+
+    th {
+        background: #3498db;
+        color: white;
+        padding: 10px 14px;
+        text-align: left;
+        font-weight: 600;
+    }
+
+    td {
+        padding: 9px 14px;
+        border-bottom: 1px solid #ecf0f1;
+    }
+
+    tr:nth-child(even) {
+        background: #f8f9fa;
+    }
+
+    /* Metric cards */
+    .metrics-row {
+        display: flex;
+        gap: 16px;
+        margin: 20px 0;
+    }
+
+    .metric-card {
+        flex: 1;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .metric-card.blue {
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    }
+
+    .metric-card.green {
+        background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    }
+
+    .metric-card.orange {
+        background: linear-gradient(135deg, #e67e22 0%, #f39c12 100%);
+    }
+
+    .metric-card.red {
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    }
+
+    .metric-card .value {
+        font-size: 32px;
+        font-weight: 700;
+        display: block;
+    }
+
+    .metric-card .label {
+        font-size: 12px;
+        opacity: 0.85;
+        margin-top: 4px;
+        display: block;
+    }
+
+    /* Highlight boxes */
+    .insight-box {
+        background: #eaf2f8;
+        border-left: 4px solid #3498db;
+        padding: 14px 18px;
+        border-radius: 0 8px 8px 0;
+        margin: 15px 0;
+    }
+
+    .insight-box.warning {
+        background: #fef9e7;
+        border-left-color: #f39c12;
+    }
+
+    .insight-box.action {
+        background: #eafaf1;
+        border-left-color: #27ae60;
+    }
+
+    .insight-box strong {
+        color: #2c3e50;
+    }
+
+    .two-col {
+        display: flex;
+        gap: 30px;
+    }
+
+    .two-col > div {
+        flex: 1;
+    }
+
+    .bar {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .bar-label {
+        width: 130px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #555;
+    }
+
+    .bar-fill {
+        height: 22px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        padding-left: 8px;
+        font-size: 11px;
+        color: white;
+        font-weight: 600;
+    }
+
+    @media print {
+        body { background: white; }
+        .slide {
+            box-shadow: none;
+            margin: 0;
+            border-radius: 0;
+            page-break-after: always;
+        }
+    }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- SLIDE 1: Title -->
+<!-- ============================================================ -->
+<div class="slide title-slide">
+    <h1>New York City Airbnb Market</h1>
+    <div class="subtitle">A Data-Driven Analysis of 49,000 Listings</div>
+    <div style="width:200px; height:2px; background:rgba(255,255,255,0.2); margin:15px auto;"></div>
+    <div class="meta">
+        Dataset: NYC Airbnb Open Data (2019) | Kaggle<br>
+        September 2026
+    </div>
+    <div class="slide-number" style="color:rgba(255,255,255,0.3);">1</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2: Agenda -->
+<!-- ============================================================ -->
+<div class="slide">
+    <h2>Agenda</h2>
+    <table>
+        <tr><th style="width:40px;">#</th><th>Section</th><th>Focus</th></tr>
+        <tr><td>1</td><td>Data Overview</td><td>Dataset scope, cleaning methodology, feature engineering</td></tr>
+        <tr><td>2</td><td>Geographic Distribution</td><td>Where are listings concentrated across the five boroughs?</td></tr>
+        <tr><td>3</td><td>Pricing Dynamics</td><td>Price distributions, borough and room-type comparisons</td></tr>
+        <tr><td>4</td><td>Room Type Composition</td><td>What types of spaces dominate the market?</td></tr>
+        <tr><td>5</td><td>Host Landscape</td><td>Individual vs professional hosts, market concentration</td></tr>
+        <tr><td>6</td><td>Guest Engagement</td><td>Review patterns, activity trends, and popularity signals</td></tr>
+        <tr><td>7</td><td>Revenue Estimates</td><td>Which areas generate the most revenue?</td></tr>
+        <tr><td>8</td><td>Recommendations</td><td>Actionable insights for hosts, policy makers, and the platform</td></tr>
+    </table>
+    <div class="slide-number">2</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3: Data at a Glance -->
+<!-- ============================================================ -->
+<div class="slide">
+    <h2>The Data at a Glance</h2>
+
+    <div class="metrics-row">
+        <div class="metric-card blue">
+            <span class="value">48,895</span>
+            <span class="label">Total Listings</span>
+        </div>
+        <div class="metric-card green">
+            <span class="value">37,457</span>
+            <span class="label">Unique Hosts</span>
+        </div>
+        <div class="metric-card orange">
+            <span class="value">5</span>
+            <span class="label">Boroughs</span>
+        </div>
+        <div class="metric-card red">
+            <span class="value">221</span>
+            <span class="label">Neighbourhoods</span>
+        </div>
+    </div>
+
+    <div class="two-col">
+        <div>
+            <h3>Attributes Captured</h3>
+            <ul>
+                <li>Location (borough, neighbourhood, coordinates)</li>
+                <li>Pricing and minimum night requirements</li>
+                <li>Room type (entire home, private room, shared)</li>
+                <li>Host identity and listing count</li>
+                <li>Review history and frequency</li>
+                <li>Calendar availability (days per year)</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Cleaning Applied</h3>
+            <ul>
+                <li>Filled 16 missing listing names, 21 missing host names</li>
+                <li>Imputed 10,052 missing reviews_per_month with 0</li>
+                <li>Removed 11 zero-price listings</li>
+                <li>Excluded 53 listings with minimum nights > 365</li>
+                <li>Created price categories, host types, revenue estimates</li>
+            </ul>
+        </div>
+    </div>
+    <div class="slide-number">3</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4: Geographic Distribution -->
+<!-- ============================================================ -->
+<div class="slide">
+    <h2>Geographic Distribution</h2>
+
+    <p>Manhattan and Brooklyn together host approximately 85% of all Airbnb listings in New York City.</p>
+
+    <h3>Listings by Borough</h3>
+    <div class="bar">
+        <span class="bar-label">Manhattan</span>
+        <div class="bar-fill" style="width:44%; background:#3498db;">21,661 (44.3%)</div>
+    </div>
+    <div class="bar">
+        <span class="bar-label">Brooklyn</span>
+        <div class="bar-fill" style="width:40%; background:#e74c3c;">20,104 (41.1%)</div>
+    </div>
+    <div class="bar">
+        <span class="bar-label">Queens</span>
+        <div class="bar-fill" style="width:11%; background:#2ecc71;">5,666 (11.6%)</div>
+    </div>
+    <div class="bar">
+        <span class="bar-label">Bronx</span>
+        <div class="bar-fill" style="width:3%; background:#f39c12;">1,091 (2.2%)</div>
+    </div>
+    <div class="bar">
+        <span class="bar-label">Staten Island</span>
+        <div class="bar-fill" style="width:1.5%; background:#9b59b6;">373 (0.8%)</div>
+    </div>
+
+    <div class="insight-box" style="margin-top:20px;">
+        <strong>Insight:</strong> The top 5 neighbourhoods (Williamsburg, Bedford-Stuyvesant, Harlem, Bushwick, Upper West Side) alone account for about 30% of all listings. The outer boroughs remain largely untapped.
+    </div>
+    <div class="slide-number">4</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5: Pricing Dynamics -->
+<!-- ============================================================ -->
+<div class="slide">
+    <h2>Pricing Dynamics</h2>
+
+    <div class="metrics-row">
+        <div class="metric-card blue">
+            <span class="value">$106</span>
+            <span class="label">Median Price / Night</span>
+        </div>
+        <div class="metric-card orange">
+            <span class="value">$152</span>
+            <span class="label">Mean Price / Night</span>
+        </div>
+        <div class="metric-card green">
+            <span class="value">~50%</span>
+            <span class="label">Under $100/night</span>
+        </div>
+    </div>
+
+    <h3>Median Price by Borough and Room Type</h3>
+    <table>
+        <tr><th>Borough</th><th>Entire Home</th><th>Private Room</th><th>Shared Room</th></tr>
+        <tr><td>Manhattan</td><td>$196</td><td>$90</td><td>$65</td></tr>
+        <tr><td>Brooklyn</td><td>$130</td><td>$66</td><td>$40</td></tr>
+        <tr><td>Queens</td><td>$110</td><td>$60</td><td>$43</td></tr>
+        <tr><td>Bronx</td><td>$85</td><td>$55</td><td>$36</td></tr>
+        <tr><td>Staten Island</td><td>$115</td><td>$55</td><td>$25</td></tr>
+    </table>
+
+    <div class="insight-box warning">
+        <strong>Note:</strong> The distribution is heavily right-skewed. The mean ($152) is pulled up by luxury listings priced above $500/night, which represent only about 5% of the market.
+    </div>
+    <div class="slide-number">5</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 6: Room Types -->
+<!-- ============================================================ -->
+<div class="slide">
+    <h2>Room Type Composition</h2>
+
+    <div class="two-col">
+        <div>
+            <h3>Overall Market</h3>
+            <div class="bar">
+                <span class="bar-label">Entire home/apt</span>
+                <div class="bar-fill" style="width:52%; background:#3498db;">52.0%</div>
+            </div>
+            <div class="bar">
+                <span class="bar-label">Private room</span>
+                <div class="bar-fill" style="width:46%; background:#2ecc71;">45.7%</div>
+            </div>
+            <div class="bar">
+                <span class="bar-label">Shared room</span>
+                <div class="bar-fill" style="width:4%; background:#f39c12;">2.3%</div>
+            </div>
+
+            <div class="insight-box" style="margin-top:20px;">
+                <strong>Insight:</strong> Entire homes and private rooms together account for nearly 98% of the market. Shared rooms, despite being the most affordable option, make up a tiny fraction.
+            </div>
+        </div>
+        <div>
+            <h3>Borough Variation</h3>
+            <ul>
+                <li><strong>Manhattan</strong> leans toward entire homes, reflecting the high-demand tourist market and higher price points.</li>
+                <li><strong>Brooklyn</strong> has a stronger presence of private rooms, consistent with its residential brownstone character.</li>
+                <li><strong>Queens and Bronx</strong> have higher proportions of private rooms, driven by lower price points and residential hosting.</li>
+                <li><strong>Staten Island</strong> has a notably higher share of entire-home listings relative to its small market size.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="slide-number">6</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 7: Host Landscape -->
+<!-- ============================================================ -->
+<div class="slide">
+    <h2>Host Landscape and Market Concentration</h2>
+
+    <p>The NYC Airbnb market shows a meaningful degree of commercial concentration.</p>
+
+    <div class="two-col">
+        <div>
+            <h3>Host Types (by unique hosts)</h3>
+            <table>
+                <tr><th>Host Type</th><th>Hosts</th><th>Share</th></tr>
+                <tr><td>Individual (1 listing)</td><td>~30,800</td><td>~82%</td></tr>
+                <tr><td>Small Portfolio (2-5)</td><td>~5,600</td><td>~15%</td></tr>
+                <tr><td>Professional (6+)</td><td>~1,100</td><td>~3%</td></tr>
+            </table>
+        </div>
+        <div>
+            <h3>Listing Share</h3>
+            <table>
+                <tr><th>Host Type</th><th>Listings</th><th>Share</th></tr>
+                <tr><td>Individual (1 listing)</td><td>~30,800</td><td>~63%</td></tr>
+                <tr><td>Small Portfolio (2-5)</td><td>~10,700</td><td>~22%</td></tr>
+                <tr><td>Professional (6+)</td><td>~7,300</td><td>~15%</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="insight-box warning" style="margin-top:15px;">
+        <strong>Concentration Signal:</strong> Roughly 3% of hosts (professional operators) control about 15% of all listings. The top individual hosts manage over 300 listings each, operating more like hotel businesses than spare-room sharers.
+    </div>
+    <div class="slide-number">7</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 8: Reviews and Engagement -->
+<!-- ============================================================ -->
+<div class="slide">
+    <h2>Guest Engagement and Review Patterns</h2>
+
+    <div class="two-col">
+        <div>
+            <h3>Review Activity</h3>
+            <ul>
+                <li>Steady growth in review activity through 2019</li>
+                <li>Peak months: June and July (summer tourism)</li>
+                <li>Average listing has ~23 reviews</li>
+                <li>About 20% of listings have never been reviewed</li>
+            </ul>
+
+            <h3>Correlations</h3>
+            <ul>
+                <li>Higher-priced listings tend to receive fewer reviews</li>
+                <li>Reviews per month and total reviews correlate strongly</li>
+                <li>Price and availability show weak negative correlation</li>
+                <li>Minimum nights and reviews are inversely related</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Minimum Night Requirements</h3>
+            <ul>
+                <li>Most listings: 1-3 night minimum</li>
+                <li>~4-5% require 30+ nights</li>
+                <li>Manhattan has the highest median minimum nights</li>
+            </ul>
+
+            <div class="insight-box warning">
+                <strong>Regulatory Flag:</strong> Listings with 30+ night minimums may represent an attempt to circumvent NYC short-term rental restrictions, or they may be legitimate long-term rentals using the platform.
+            </div>
+        </div>
+    </div>
+    <div class="slide-number">8</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 9: Revenue -->
+<!-- ============================================================ -->
+<div class="slide">
+    <h2>Revenue Estimates by Geography</h2>
+
+    <p>Using a conservative review-to-booking conversion model (1 review per 2 stays, average 3-night stay):</p>
+
+    <h3>Top Revenue-Generating Neighbourhoods</h3>
+    <table>
+        <tr><th>Rank</th><th>Neighbourhood</th><th>Borough</th><th>Listings</th><th>Median Price</th></tr>
+        <tr><td>1</td><td>Williamsburg</td><td>Brooklyn</td><td>~3,920</td><td>$130</td></tr>
+        <tr><td>2</td><td>Bedford-Stuyvesant</td><td>Brooklyn</td><td>~3,714</td><td>$80</td></tr>
+        <tr><td>3</td><td>Harlem</td><td>Manhattan</td><td>~2,658</td><td>$99</td></tr>
+        <tr><td>4</td><td>Bushwick</td><td>Brooklyn</td><td>~2,465</td><td>$76</td></tr>
+        <tr><td>5</td><td>Hell's Kitchen</td><td>Manhattan</td><td>~1,958</td><td>$150</td></tr>
+    </table>
+
+    <div class="insight-box action">
+        <strong>Opportunity:</strong> While Manhattan commands the highest per-listing prices, Brooklyn's high listing volume and solid engagement make it the most productive borough by aggregate revenue. Brooklyn neighbourhoods offer the best risk-reward balance for new hosts.
+    </div>
+    <div class="slide-number">9</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10: Recommendations -->
+<!-- ============================================================ -->
+<div class="slide">
+    <h2>Recommendations</h2>
+
+    <div class="two-col">
+        <div>
+            <h3>For Hosts</h3>
+            <div class="insight-box action">
+                <ul style="margin:0; padding-left:16px;">
+                    <li>Target $50-200/night price range</li>
+                    <li>Brooklyn offers the best demand-to-competition ratio</li>
+                    <li>Set minimum nights to 1-2 days</li>
+                    <li>Prioritise generating reviews</li>
+                    <li>Use appealing, descriptive listing names</li>
+                    <li>Maximise calendar availability</li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <h3>For Policy Makers</h3>
+            <div class="insight-box warning">
+                <ul style="margin:0; padding-left:16px;">
+                    <li>Monitor professional host concentration</li>
+                    <li>Investigate 30+ night minimum listings</li>
+                    <li>Assess housing impact in dense areas</li>
+                    <li>Consider commercial operator registration requirements</li>
+                </ul>
+            </div>
+
+            <h3>For the Platform</h3>
+            <div class="insight-box">
+                <ul style="margin:0; padding-left:16px;">
+                    <li>Promote outer boroughs for market diversification</li>
+                    <li>Build tools to support individual hosts</li>
+                    <li>Leverage strong review growth as a health signal</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="slide-number">10</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 11: Thank You -->
+<!-- ============================================================ -->
+<div class="slide title-slide" style="min-height:540px;">
+    <h1>Thank You</h1>
+    <div class="subtitle">Questions and Discussion</div>
+    <div style="width:200px; height:2px; background:rgba(255,255,255,0.2); margin:20px auto;"></div>
+    <div class="meta">
+        Full analysis available in the project repository<br>
+        Interactive dashboard: streamlit run dashboard_app.py<br><br>
+        Data Source: kaggle.com/datasets/dgomonov/new-york-city-airbnb-open-data
+    </div>
+    <div class="slide-number" style="color:rgba(255,255,255,0.3);">11</div>
+</div>
+
+</body>
+</html>
